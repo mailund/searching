@@ -5,5 +5,5 @@ script:
   - cmake .
   - make
   - ls
-  - cmake -V
+  - ctest -V
   - make test

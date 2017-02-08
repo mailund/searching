@@ -1,5 +1,7 @@
 #!/bin/sh
 
+echo foobarbaz > search-file.txt
+
 echo > search-results.txt
 ./search foo search-file.txt >> search-results.txt
 ./search bar search-file.txt >> search-results.txt
