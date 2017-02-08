@@ -1,9 +1,8 @@
 language: c
-install:
-    - sudo apt-get install cmake
 script:
-  - cmake .
   - make
-  - ls
-  - ctest -V
   - make test
+compiler:
+  - clang
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
