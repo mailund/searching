@@ -31,3 +31,19 @@
 # Debug files
 *.dSYM/
 *.su
+
+CMakeFiles
+CMakeCache.txt
+CMakeScripts
+cmake_install.cmake
+Searching.xcodeproj
+Debug/
+DerivedData/
+Searching.build/
+CTestTestfile.cmake
+Makefile
+Testing/
+search-file.txt
+expected-results.txt
+search-results.txt
+search
