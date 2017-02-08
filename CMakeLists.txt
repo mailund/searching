@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2)
+cmake_minimum_required(VERSION 2.0)
 
 project (Searching)
 add_executable(search search.c)
