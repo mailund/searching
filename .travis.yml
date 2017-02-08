@@ -4,4 +4,6 @@ install:
 script:
   - cmake .
   - make
+  - ls
+  - cmake -V
   - make test
