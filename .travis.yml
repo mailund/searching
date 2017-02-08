@@ -2,6 +2,7 @@ language: c
 script:
   - make
   - make test
+  - gcov search.c
 compiler:
   - clang
 after_success:
