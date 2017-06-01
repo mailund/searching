@@ -32,7 +32,6 @@
 *.dSYM/
 *.su
 
-search-file.txt
 expected-results.txt
 search-results.txt
 search
