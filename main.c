@@ -65,6 +65,31 @@ static void ba_search(char * key, char * buffer)
     }
 }
 
+static void kmp_search(char * key, char * buffer)
+{
+    unsigned long n = strlen(buffer);
+    unsigned long m = strlen(key);
+    unsigned long ba[m];
+    
+    ba[0] = 0;
+    for (unsigned long i = 1; i < m; ++i) {
+        unsigned long b = ba[i-1];
+        while (b > 0 && key[i] != key[b])
+            b = ba[b-1];
+        ba[i] = (key[i] == key[b]) ? b + 1 : 0;
+    }
+    
+    unsigned long i, j; i = j = 0;
+    while (i < n - m + j) {
+        while (buffer[i] == key[j] && j < m) {
+            ++i; ++j;
+        }
+        if (j == m) printf("%lu\n", i - m);
+        if (j == 0) ++i;
+        else j = ba[j-1];
+    }
+}
+
 
 int main(int argc, char *argv[])
 {
@@ -83,7 +108,8 @@ int main(int argc, char *argv[])
     }
     
     //search(key, buffer);
-    ba_search(key, buffer);
+    //ba_search(key, buffer);
+    kmp_search(key, buffer);
     
     return EXIT_SUCCESS;
 }
