@@ -2,6 +2,7 @@ language: c
 script:
   - cmake .
   - make
+  - ls
   - make test
 compiler:
   - clang
