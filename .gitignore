@@ -36,3 +36,13 @@ search-file.txt
 expected-results.txt
 search-results.txt
 search
+
+CMakeFiles/
+CMakeScripts/
+CTestTestfile.cmake
+DartConfiguration.tcl
+DerivedData/
+Search.build/
+Search.xcodeproj/
+Testing/
+searching/

@@ -48,20 +48,20 @@ static void ba_search(char * key, char * buffer)
     unsigned long ba[m];
     
     ba[0] = 0;
-    for (unsigned long i = 0; i < m; ++i) {
-        unsigned long b = ba[i];
-        while (b > 0 && key[b] != key[i+1])
-            b = ba[b];
-        ba[i+1] = (key[i+1] == key[b]) ? ba[i+1] = b + 1 : 0;
+    for (unsigned long i = 1; i < m; ++i) {
+        unsigned long b = ba[i-1];
+        while (b > 0 && key[i] != key[b])
+            b = ba[b-1];
+        ba[i] = (key[i] == key[b]) ? b + 1 : 0;
     }
     
     unsigned long b = 0;
     for (unsigned long i = 0; i < n; ++i) {
-        while (b > 0 && key[b] != buffer[i+1])
-            b = ba[b];
-        b = (buffer[i+1] == key[b]) ? ba[i+1] = b + 1 : 0;
+        while (b > 0 && buffer[i] != key[b])
+            b = ba[b-1];
+        b = (buffer[i] == key[b]) ? b + 1 : 0;
         if (b == m)
-            printf("%lu\n", i - m);
+            printf("%lu\n", i - m + 1);
     }
 }
 
@@ -82,7 +82,7 @@ int main(int argc, char *argv[])
         return EXIT_FAILURE;
     }
     
-    // search(key, buffer);
+    //search(key, buffer);
     ba_search(key, buffer);
     
     return EXIT_SUCCESS;
