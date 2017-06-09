@@ -128,7 +128,7 @@ static void bmh_search(char * key, char * buffer)
             --j;
         }
         if (j < 0) {
-            printf("%lu\n", i + 1);
+            printf("%ld\n", i + 1);
             i += m + 1;
         } else {
             i += bc_table[(unsigned long)buffer[i]];
