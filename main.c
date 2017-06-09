@@ -109,16 +109,31 @@ static void build_bad_character_table(unsigned long * bc_table,
     }
 }
 
+static void build_border_array(unsigned long *ba, char * key, unsigned long key_length)
+{
+    ba[0] = 0;
+    for (unsigned long i = 1; i < key_length; ++i) {
+        unsigned long b = ba[i-1];
+        while (b > 0 && key[i] != key[b])
+            b = ba[b-1];
+        ba[i] = (key[i] == key[b]) ? b + 1 : 0;
+    }
+}
+
 static void bmh_search(char * key, char * buffer)
 {
     // The Boyer–Moore–Horspool algorithm is a simplification
     // of the Boyer–Moore algorithm using only the bad character rule.
+    // This implementation also uses the border array to switch
+    // in cases of a match.
     
     unsigned long bc_table[ALPHABET_SIZE];
     unsigned long m = strlen(key);
     unsigned long n = strlen(buffer);
+    unsigned long ba[m];
     
     build_bad_character_table(bc_table, key, m);
+    build_border_array(ba, key, m);
     
     long i = m - 1;
     while (i < n) {
@@ -129,7 +144,7 @@ static void bmh_search(char * key, char * buffer)
         }
         if (j < 0) {
             printf("%ld\n", i + 1);
-            i += m + 1;
+            i += 2*m - ba[m-1];
         } else {
             i += bc_table[(unsigned long)buffer[i]];
         }
