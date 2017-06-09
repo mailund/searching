@@ -2,6 +2,10 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define ALPHABET_SIZE 256
+#define max(a, b) ((a < b) ? b : a)
+#define min(a, b) ((a > b) ? b : a)
+
 static char * read_file_content(char *fname)
 {
     FILE *f = fopen(fname, "rb");
@@ -91,6 +95,47 @@ static void kmp_search(char * key, char * buffer)
 }
 
 
+static void build_bad_character_table(unsigned long * bc_table,
+                                      char * key,
+                                      unsigned long key_length)
+{
+    const unsigned long NOT_FOUND = key_length;
+    
+    for (unsigned long i = 0; i < ALPHABET_SIZE; ++i) {
+        bc_table[i] = NOT_FOUND;
+    }
+    for (unsigned long i = 0; i < key_length; ++i) {
+        bc_table[(unsigned long)key[i]] = key_length - i - 1;
+    }
+}
+
+static void bmh_search(char * key, char * buffer)
+{
+    // The Boyer–Moore–Horspool algorithm is a simplification
+    // of the Boyer–Moore algorithm using only the bad character rule.
+    
+    unsigned long bc_table[ALPHABET_SIZE];
+    unsigned long m = strlen(key);
+    unsigned long n = strlen(buffer);
+    
+    build_bad_character_table(bc_table, key, m);
+    
+    long i = m - 1;
+    while (i < n) {
+        long j = m - 1;
+        while (j >= 0 && key[j] == buffer[i]) {
+            --i;
+            --j;
+        }
+        if (j < 0) {
+            printf("%lu\n", i + 1);
+            i += m + 1;
+        } else {
+            i += bc_table[(unsigned long)buffer[i]];
+        }
+    }
+}
+
 int main(int argc, char *argv[])
 {
     if (argc != 3) {
@@ -109,7 +154,8 @@ int main(int argc, char *argv[])
     
     //search(key, buffer);
     //ba_search(key, buffer);
-    kmp_search(key, buffer);
+    //kmp_search(key, buffer);
+    bmh_search(key, buffer);
     
     return EXIT_SUCCESS;
 }
